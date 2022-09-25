@@ -1,0 +1,41 @@
+body {
+    background-color: #202124;  
+}
+ul#console {
+list-style-type: none;
+font-family: 'Roboto Mono', monospace;
+font-size: 14px;
+line-height: 25px;
+padding-left: 5px;
+color: #bdc1c6;
+}
+ul#console li {
+border-bottom: solid 1px #80808038;
+}
+
+a {
+  color: #8ab4f8;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #c58af9;
+}
+
+.card {
+  display: flex;
+  margin-top: 7px;
+}
+
+.avatar {
+  margin-right: 15px;
+}
+.avatar_img {
+  max-width: 120px;
+}
+
+.persona_name {
+  font-size: x-large;
+  padding-bottom: 10px;
+  margin-top: 2px;
+}
