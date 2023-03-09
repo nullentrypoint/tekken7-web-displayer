@@ -15,21 +15,21 @@ type app struct {
 }
 
 func (r *app) EventNewChallenger(info tekken.PlayerInfo) {
-	r.socket.SendMessageToAll(server.MyItem{Info: info})
+	r.socket.SendMessageToAll(server.Message{Info: info})
 }
 
 func (r *app) EventSteamWorksInit() {
 	go func() {
-		time.Sleep(time.Second * 15)
-		r.api.OverlayOpenUrl(fmt.Sprintf("http://%s", r.socket.Addr))
+		time.Sleep(time.Second * 2)
+		r.api.OverlayOpenUrl(fmt.Sprintf("http://localhost:%d", r.socket.Port))
 	}()
 }
 
-func Run() {
+func Run(httpPort int) {
 	log.Println("[INFO] Start...")
 
 	app := &app{
-		socket: server.NewSocket("localhost:8080"),
+		socket: server.NewSocket(fmt.Sprintf(":%d", httpPort)),
 		api:    tekken.NewApi(),
 	}
 

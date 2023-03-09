@@ -39,3 +39,10 @@ a:visited {
   padding-bottom: 10px;
   margin-top: 2px;
 }
+
+.message_time {
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: 10px;
+  font-size: smaller;
+}

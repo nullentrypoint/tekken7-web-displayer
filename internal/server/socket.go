@@ -2,33 +2,31 @@ package server
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"mime"
 	"net/http"
 	"path/filepath"
+	"strconv"
+	"strings"
 
 	"github.com/nullentrypoint/tekken7-web-displayer/client"
 	"github.com/nullentrypoint/tekken7-web-displayer/pkg/livegollection"
 )
 
 type Socket struct {
-	*livegollection.LiveGollection[IdType, MyItem]
+	*livegollection.LiveGollection[MessageID, Message]
 	Addr string
+	Port int
 }
 
 func NewSocket(addr string) *Socket {
 	serveStatic()
 
-	myColl, err := NewMyCollection()
-	if err != nil {
-		log.Fatal(fmt.Errorf("error when creating MyCollection: %v", err))
-	}
-
 	// When we create the LiveGollection we need to specify the type parameters for items' id and items themselves.
 	socket := Socket{
-		LiveGollection: livegollection.NewLiveGollection[IdType, MyItem](context.TODO(), myColl, log.Default()),
+		LiveGollection: livegollection.NewLiveGollection[MessageID, Message](context.TODO(), NewCollection(), log.Default()),
 		Addr:           addr,
+		Port:           getPort(addr),
 	}
 
 	// After we created liveGoll, to enable it we just need to register a route handled by liveGoll.Join.
@@ -39,6 +37,20 @@ func NewSocket(addr string) *Socket {
 	}(socket.Addr)
 
 	return &socket
+}
+
+func getPort(addr string) int {
+	parts := strings.Split(addr, ":")
+	if len(parts) < 2 {
+		return 0
+	}
+
+	port, err := strconv.Atoi(parts[len(parts)-1])
+	if err != nil {
+		return 0
+	}
+
+	return port
 }
 
 func serveStatic() {

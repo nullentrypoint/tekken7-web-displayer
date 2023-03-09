@@ -9,6 +9,8 @@ import (
 	"github.com/nullentrypoint/tekken7-web-displayer/pkg/irma"
 )
 
+const timeLayout = "15:04"
+
 type Api struct {
 	handle       windows.Handle
 	steamApiInfo *irma.ModuleInfo
@@ -29,6 +31,7 @@ type PlayerInfo struct {
 	IP          string
 	Location    string
 	CountryCode string
+	Time        string
 }
 
 func (r PlayerInfo) String() string {

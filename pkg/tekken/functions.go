@@ -29,6 +29,7 @@ func (r *Api) Run() {
 		handle, err := irma.FindProcessByName(TEKKEN_EXE_NAME)
 		if err == nil && handle != windows.InvalidHandle {
 			log.Println("[INFO] Tekken process found!")
+			time.Sleep(time.Second * 10)
 			err := r.processHandler(handle)
 			if err != nil {
 				log.Println("[ERROR]", err)
@@ -71,6 +72,7 @@ func GetPlayerInfo(steamID steamworks.CSteamID) PlayerInfo {
 	info := PlayerInfo{
 		//Name: steamworks.SteamFriends().GetFriendPersonaName(steamID),
 		SteamID: fmt.Sprint(steamID),
+		Time: time.Now().Format(timeLayout),
 	}
 
 	pp, err := steamweb.Parse(info.SteamID)
@@ -137,7 +139,7 @@ func (r *Api) processHandler(handle windows.Handle) error {
 		if newChallenger {
 			r.fireEventNewChallenger(&r.Data)
 		}
-		time.Sleep(time.Millisecond * 500)
+		time.Sleep(time.Millisecond * 100)
 	}
 }
 

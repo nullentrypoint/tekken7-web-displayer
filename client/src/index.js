@@ -24,6 +24,9 @@ function templateCard(message) {
                 <span>IP: `+ escapeHTML(message.IP) +` </span>
             </div>
         </div>
+        <div class="message_time">
+                <span>`+ escapeHTML(message.Time) +`</span>
+        </div>
     </div>
     `
 }
@@ -42,18 +45,14 @@ function addMessageToInbox(message) {
     }
 
     const newLine = document.createElement("li");
-    //newLine.innerHTML = (typeof txt === 'string') ? txt : JSON.stringify(txt, null, 4);
     newLine.id = message.id;
-    const r = message.info
-    //"OppName:", r.OppName, "OppSteamID:", r.MemoryData.OpponentSteamID, "OppIP:", r.OppIP
-    //newLine.innerHTML = profileLink(r.SteamID, r.Name) + " IP: " + r.IP + " " + r.Location;
-    newLine.innerHTML = templateCard(r);
-    //divConsole.appendChild(newLine);
+    newLine.innerHTML = templateCard(message.info);
     divConsole.insertBefore(newLine, divConsole.firstChild)
 }
 
 window.onload = () => {
-    liveGoll = new LiveGollection("ws://localhost:8080/livegollection");
+    const host = window.location.host;
+    liveGoll = new LiveGollection("ws://"+ host +"/livegollection");
     divConsole = document.getElementById("console");
 
     liveGoll.oncreate = (message) => {
